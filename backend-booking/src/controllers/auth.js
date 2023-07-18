@@ -19,6 +19,8 @@ export const signup = async (req, res) => {
       });
     }
 
+    // kiểm tra tồn tại email
+
     const userExist = await User.findOne({ email });
     if (userExist) {
       return res.status(400).json({
@@ -63,10 +65,15 @@ export const signin = async (req, res) => {
         message: 'Tài khoản không tồn tại',
       });
     }
-
+    if (user?.active === 'Inactive') {
+      return res.status(400).json({
+        message: 'Tài Khoản Bị Khóa',
+      });
+    }
+    // nó vừa mã hóa và vừa so sánh
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({
+      return res.status(401).json({
         message: 'Sai mật khẩu',
       });
     }
