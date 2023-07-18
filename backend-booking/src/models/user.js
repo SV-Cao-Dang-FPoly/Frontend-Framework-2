@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: "member",
         },
+        active: {
+            type: String,
+            default: "Active",
+        },
     },
     { timestamps: true, versionKey: false }
 );
